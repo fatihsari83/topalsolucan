@@ -1,7 +1,7 @@
-Feature: US_43As an administrator (teacher), I want to access the Homework List through API connection.
+Feature: US43 As an administrator (teacher), I want to access the Homework List through API connection.
 
-  Scenario: TC_01 apiteacher/homeworkList endpoint'ine gecerli authorization bilgileri ile bir GET request gönderildiginde
-                 dönen status code'un 200 oldugu ve response message bilgisinin "Success" oldugu dogrulanmali
+  Scenario: TC01 When a valid authorization is provided with a GET request to the "apiteacher/homeworkList" endpoint,
+            the response status code should be 200, and the response message should be "Success."
 
          Path parametrelerini set eder.
          Teacher icin, gecerli authorization bilgileri ile  response kaydeder
