@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/WonderWorldCollege_Team05.iml" filepath="$PROJECT_DIR$/.idea/WonderWorldCollege_Team05.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WonderWorldCollege_Team05/com.WonderWorldCollege_API_DB.iml" filepath="$PROJECT_DIR$/WonderWorldCollege_Team05/com.WonderWorldCollege_API_DB.iml" />
     </modules>
   </component>
 </project>
