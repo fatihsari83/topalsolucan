@@ -458,16 +458,32 @@ public class API_StepDefinition {
     public void for_admin_on_the_relevant_page_the_last_delete_query_is_sent_with_the_valid_authorization_information_and_the_response_is_recorded() {
         JSONObject reqBody = new JSONObject();
         reqBody.put("id", ConfigReader.getProperty("deleteID"));
-             response = given()
+        response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
                 .when()
                 .body(reqBody.toString())
                 .post(fullPath);
-
-
     }
+
+     // US 42 TC01
+
+
+        @Given("For admin, On the relevant page, the last delete query is sent with the invalid authorization information and the response is recorded")
+        public void for_admin_on_the_relevant_page_the_last_delete_query_is_sent_with_the_invalid_authorization_information_and_the_response_is_recorded(){
+            JSONObject reqBody = new JSONObject();
+            reqBody.put("id", "invalid");
+            response = given()
+                    .spec(API_Hooks.spec)
+                    .contentType(ContentType.JSON)
+                    .headers("Authorization", "Bearer " + "API_Hooks.TokenAdmin")
+                    .when()
+                    .body(reqBody.toString())
+                    .post(fullPath);
+        }
+
+
     // US42 TC03
     @Given("It is verified that the DeletedId information in the response body is the same as the ID information in the DELETE request body sent to the endpoint.")
     public void ıt_is_verified_that_the_deleted_ıd_information_in_the_response_body_is_the_same_as_the_ıd_information_in_the_delete_request_body_sent_to_the_endpoint() {

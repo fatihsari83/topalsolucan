@@ -13,7 +13,7 @@ Feature: US42 As an administrator, I want to be able to delete a Notice record f
               status code should be 403, and the response body's message should be "failed" to be verified.
 
       * Set "api/deleteNotice" parameters
-      * For admin, On the relevant page, the last delete query is sent with the valid authorization information and the response is recorded
+      * For admin, On the relevant page, the last delete query is sent with the invalid authorization information and the response is recorded
       * For admin, verifies that status code is 403
       * For admin, verifies that the message information is "failed"
 
