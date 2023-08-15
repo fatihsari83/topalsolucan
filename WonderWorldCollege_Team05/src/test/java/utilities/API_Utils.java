@@ -35,7 +35,7 @@ public class API_Utils {
         spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
         spec.pathParams("pp1","api","pp2","getToken");
         Map<String,Object> dataCredential = new HashMap<>();
-        dataCredential.put("email", ConfigReader.getProperty("emailTeacher"));
+        dataCredential.put("email", ConfigReader.getProperty("teacher_FatihSari"));
         dataCredential.put("password", ConfigReader.getProperty("password"));
         Response response = given()
                 .spec(spec)
@@ -57,7 +57,7 @@ public class API_Utils {
 
         Map<String,Object> dataCredential = new HashMap<>();
 
-        dataCredential.put("username", ConfigReader.getProperty("emailStudent"));
+        dataCredential.put("username", ConfigReader.getProperty("std_FatihSari"));
         dataCredential.put("password", ConfigReader.getProperty("password"));
 
         Response response = given()

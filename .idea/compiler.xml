@@ -7,8 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="com.WonderWorldCollege_API_DB" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.WonderWorldCollege_API_DB" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
