@@ -14,7 +14,6 @@ Feature: US_03 As an administrator, I want to create a new visitor purpose recor
   should be "failed."
 
     * Set "api/visitorsPurposeAdd" parameters
-    * Records response for Admin with unvalid authorization information
     * Verifies that status code is 403
     * Verifies that the message information is "Failed"
 
