@@ -63,9 +63,11 @@ public class DB_Utils {
 
     /**
      * DBUtils.executeQuery(String query); -> Execute the query and store is the result set object
+     *
+     * @return
      */
 
-    public static void executeQuery(String query) {
+    public static ResultSet executeQuery(String query) {
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (SQLException e) {
@@ -74,11 +76,20 @@ public class DB_Utils {
             e.printStackTrace();
         }
         try {
+            ResultSet resultSet= statement.executeQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        /*
+        try {
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        */
+
+        return resultSet;
     }
 
 
