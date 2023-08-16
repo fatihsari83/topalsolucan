@@ -149,6 +149,13 @@ public class DB_StepDefinition {
     }
 
 
+    @Given("Creates a new database connection.")
+    public void creates_a_new_database_connection() {
+        DB_Utils.createConnection();
+
+    }
+
+
 
 
 
