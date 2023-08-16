@@ -1,5 +1,6 @@
 package stepDefinitions;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import hooks.API_Hooks;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -195,6 +196,8 @@ public class API_StepDefinition {
 
         response.prettyPrint();
     }
+
+
     @Given("Prepare request body for admin api_alumniEventsId endpoint with invalid authorization information and record response")
     public void prepare_request_body_for_admin_api_alumni_events_ıd_endpoint_with_invalid_authorization_information_and_record_response() {
         JSONObject reqBody = new JSONObject();
@@ -240,7 +243,125 @@ public class API_StepDefinition {
             Assert.assertTrue(actualData.contains(expectedArray[i]));
 
         }
+
+    }
+    @Given("Prepare request body for admin api_visitorsPurposeId endpoint and record response")
+    public void prepare_request_body_for_admin_api_visitors_purpose_ıd_endpoint_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", 1);
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+    @Given("Prepare request body for admin api_visitorsPurposeId endpoint with invalid authorization information and record response")
+    public void prepare_request_body_for_admin_api_visitors_purpose_ıd_endpoint_with_invalid_authorization_information_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", 1);
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + "wrongToken")
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+        response.prettyPrint();
+    }
+    @Given("Prepare request body for admin api_alumniEventsByDateRange endpoint and record response")
+    public void prepare_request_body_for_admin_api_alumni_events_by_date_range_endpoint_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("start", "2021-01-14 00:00:00");
+        reqBody.put("end", "2023-03-15 23:59:00");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+    @Given("Prepare request body for admin api_alumniEventsByDateRange endpoint with invalid authorization information and record response")
+    public void prepare_request_body_for_admin_api_alumni_events_by_date_range_endpoint_with_invalid_authorization_information_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("start", "2021-01-14 00:00:00");
+        reqBody.put("end", "2023-03-15 23:59:00");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + "wrongToken")
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+        response.prettyPrint();
+    }
+    @Given("Prepare request body for admin api_vehicleAddendpoint and record response")
+    public void prepare_request_body_for_admin_api_vehicle_addendpoint_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("vehicle_no", "VH4584");
+        reqBody.put("vehicle_model", "Ford CAB");
+        reqBody.put("vehicle_photo","1677502339-191558462463fca783b26b0!fd.png");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+    @Given("Prepare request body for admin api_vehicleAddendpoint endpoint with invalid authorization information and record response")
+    public void prepare_request_body_for_admin_api_vehicle_addendpoint_endpoint_with_invalid_authorization_information_and_record_response() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("vehicle_no", "VH4584");
+        reqBody.put("vehicle_model", "Ford CAB");
+        reqBody.put("vehicle_photo","1677502339-191558462463fca783b26b0!fd.png");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + "wrongToken")
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+        response.prettyPrint();
+    }
+    @Given("List data is verified in response from Admin api_vehicleAddendpoint andpointin")
+    public void list_data_is_verified_in_response_from_admin_api_vehicle_addendpoint_andpointin() {
+
+
+        String [] expectedArray = {"vehicle_no","vehicle_model","vehicle_photo","manufacture_year","registration_number",
+                "chasis_number","max_seating_capacity","driver_name","driver_licence","driver_contact","note"};
+
+        JsonPath resJP = response.jsonPath();
+
+        String actualData = resJP.get("lists").toString();
+        System.out.println(actualData);
+
+        for (int i = 0; i < 11; i++) {
+            Assert.assertTrue(actualData.contains(expectedArray[i]));
+
+        }
+    }
     }
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
