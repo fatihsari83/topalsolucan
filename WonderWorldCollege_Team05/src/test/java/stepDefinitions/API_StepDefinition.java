@@ -9,6 +9,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.Assert;
+import testData.TestData_API_US_033;
 import utilities.ConfigReader;
 
 import java.util.ArrayList;
@@ -454,6 +455,167 @@ public class API_StepDefinition {
         }
 
     }
+
+    @Given("List data is verified in response from Admin api_booksList endpoint")
+    public void list_data_is_verified_in_response_from_admin_api_books_list_endpoint() {
+
+        String [] expectedArray =  { "id", "book_title", "book_no", "isbn_no", "subject", "rack_no", "publish", "author", "qty", "perunitcost",
+                "postdate", "description", "available", "is_active", "created_at", "updated_at"};
+
+        JsonPath resJP = response.jsonPath();
+
+        String actualData = resJP.get("lists").toString();
+        System.out.println(actualData);
+
+        for (int i = 0; i < expectedArray.length; i++) {
+            Assert.assertTrue(actualData.contains(expectedArray[i]));
+
+        }
+
+
+    }
+
+    @Given("Prepare request body for admin api_visitorsList endpoint and record response")
+    public void prepare_request_body_for_admin_api_visitors_list_endpoint_and_record_response() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", 250);
+        reqBody.put("purpose", "Student Meeting");
+        reqBody.put("name", "Marymar");
+        reqBody.put("contact", "02516545544");
+        reqBody.put("id_proof", "1222");
+        reqBody.put("no_of_people", "5");
+        reqBody.put("date", "2023-01-18 01:08:16");
+        reqBody.put("in_time", "04:15 PM");
+        reqBody.put("out_time", "04:55 PM");
+        reqBody.put("created_at", "2023-04-18 01:08:22");
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+
+    }
+
+    @Then("List data is verified in response from Admin api_visitorsList endpoint")
+    public void list_data_is_verified_in_response_from_admin_api_visitors_list_endpoint() {
+
+        TestData_API_US_033 testDataUs033 = new TestData_API_US_033();
+
+        JSONObject expData = testDataUs033.expDataUS_033();
+
+        JsonPath resJP = response.jsonPath();
+
+
+
+
+
+
+
+
+
+        String [] expectedArray =  {"staff_id","student_session_id","source","purpose","name","email","contact","id_proof",
+                "no_of_people","date","in_time","out_time","note","image","meeting_with","created_at","class",
+                "section","staff_name","staff_surname","staff_employee_id","class_id","section_id","students_id",
+                "admission_no","student_firstname","student_middlename","student_lastname","role_id"};
+
+
+
+
+        String actualData = resJP.get("lists").toString();
+        System.out.println(actualData);
+        resJP.prettyPrint();
+
+
+        for (int i = 0; i < expectedArray.length; i++) {
+            Assert.assertTrue(actualData.contains(expectedArray[i]));
+
+        }
+
+    }
+
+
+    @Given("List data is verified in response from Admin api_visitorsId endpoint")
+    public void list_data_is_verified_in_response_from_admin_api_visitors_id_endpoint() {
+
+
+
+        String [] expectedArray =  { "id", "staff_id", "student_session_id", "source", "purpose", "name", "email", "contact", "id_proof",
+                "no_of_people", "date", "in_time", "out_time", "note", "image", "meeting_with", "created_at", "class",
+                "section", "staff_name", "staff_surname", "staff_employee_id", "class_id", "section_id", "students_id",
+                "admission_no", "student_firstname", "student_middlename", "student_lastname", "role_id"};
+        System.out.println(expectedArray);
+        JsonPath resJP = response.jsonPath();
+
+        String actualData = resJP.get("lists").toString();
+        System.out.println(actualData);
+
+        for (int i = 0; i < expectedArray.length; i++) {
+            Assert.assertTrue(actualData.contains(expectedArray[i]));
+
+        }
+
+    }
+
+    @Given("Prepare request body for admin api_visitorsId endpoint and record response")
+    public void prepare_request_body_for_admin_api_visitors_id_endpoint_and_record_response() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "177");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+    }
+    @When("Verifies that record has {string} includes {}")
+    public void verifiesThatRecordHasIncludes(String str1, String expectedData) {
+        JsonPath resJP = response.jsonPath();
+        List<Object> list = resJP.getList("lists");
+        Object[] arrList = new Object[list.size()];
+        arrList = list.toArray(arrList);
+        int index = 0;
+        for (int a = 0; a < arrList.length; a++) {
+            if (arrList[a].toString().contains(str1)) {
+                System.out.println("index no : " + a);
+                index = a;
+                break;
+            }
+        }
+
+
+        String actualData = arrList[index].toString();
+        actualData = actualData.replaceAll(",", "");
+        actualData = actualData.replaceAll(" ", "");
+        actualData = actualData.replace("{", "");
+        actualData = actualData.replace("}", "");
+        System.out.println("ACTUAL DATA =   "+actualData);
+
+        expectedData = expectedData.replaceAll(",", "");
+        expectedData = expectedData.replaceAll(" ", "");
+        System.out.println("EXPECTED DATA = "+ expectedData);
+        Assert.assertTrue(actualData.contains(expectedData));
+
+
+    }
+
+
+
+
+
+
 
 
 }
