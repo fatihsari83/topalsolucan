@@ -22,7 +22,7 @@ Feature: US_01 As an administrator, I want to access the Purpose List through an
                 response message bilgisinin "failed" oldugu dogrulanmali
 
       * Set "api/visitorsPurposeList" parameters
-      * Records response for Admin with valid authorization information
+      * Records response for Admin with invalid authorization information
       * Verifies that status code is 403
       * Verifies that the message information is "failed"
 
