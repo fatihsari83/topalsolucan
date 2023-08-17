@@ -5,7 +5,10 @@ Feature: US_68 As a user (student), I want to be able to delete my Apply Leave r
   "apistudent/applyLeaveDelete" endpoint, the response status code should be 200, and the response body's message
   should be "Success."
 
-
+    * Set "apistudent/applyLeaveDelete" parameters
+    * Prepare request body for student apistudent_applyLeaveDelete endpoint and record response
+    * Verifies that status code is 200
+    * Verifies that the message information is "Success"
 
   Scenario: TC_02 When invalid authorization information or incorrect data (id) are sent with a DELETE request to the
   "apistudent/applyLeaveDelete" endpoint, the response status code should be 403, and the response body's message
