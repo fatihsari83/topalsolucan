@@ -289,4 +289,27 @@ public class DB_Utils {
             System.out.println("ResultSet yazdırılırken bir hata oluştu: " + e.getMessage());
         }
     }
+
+    public static void deleteRecord(String tableName, String columnName, int recordId) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            String deleteQuery = "DELETE FROM " + tableName + " WHERE " + columnName + " = ?";
+            preparedStatement = connection.prepareStatement(deleteQuery);
+            preparedStatement.setInt(1, recordId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Kayıt silindi.");
+            } else {
+                System.out.println("Silme işlemi başarısız oldu veya hiçbir kayıt etkilenmedi.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -395,7 +395,7 @@ public class API_StepDefinition {
     @Given("It is verified that the record has been created by sending the POST body to the getNoticeById endpoint with addId returned in the response body.")
     public void ıt_is_verified_that_the_record_has_been_created_by_sending_the_post_body_to_the_get_notice_by_ıd_endpoint_with_add_ıd_returned_in_the_response_body() {
         JSONObject reqBody = new JSONObject();
-        reqBody.put("id", "230"); // futureden çalıştırmadan önce 2 arttır.
+        reqBody.put("id", "349"); // futureden çalıştırmadan önce 2 arttır.
         JsonPath responseJP=response.jsonPath();
         Assert.assertEquals(reqBody.getString("id"),responseJP.getString("addId"));
     }
@@ -516,13 +516,83 @@ public class API_StepDefinition {
         Assert.assertEquals(reqBody.getString("message"),responseJP.getString("message"));
     }
 
-        // US43 TC01
+        // US43
+        @Given("For Teacher, when a query is sent with valid authorization information and the correct data or data; it is verified that the status code returned is {int}.")
+        public void for_teacher_when_a_query_is_sent_with_valid_authorization_information_and_the_correct_data_or_data_it_is_verified_that_the_status_code_returned_is(Integer int1) {
+            System.out.println("response.getStatusCode() = " + response.getStatusCode());
+            response.then().assertThat().statusCode(200);
+        }
 
+    @Given("For Teacher, when a query is sent containing valid authorization information and the correct data or data; the message information in the returned response body is verified to be Success.")
+    public void for_teacher_when_a_query_is_sent_containing_valid_authorization_information_and_the_correct_data_or_data_the_message_information_in_the_returned_response_body_is_verified_to_be_success() {
+        response.then().assertThat().body("message", Matchers.equalTo("Success"));
+        JsonPath responseJP = response.jsonPath();
+        System.out.println("responseJP.get(\"message\") = " + responseJP.get("message"));
+    }
 
+    @Given("For Teacher, when a query is sent that contains invalid authorization information or invalid data or data, it is verified that the status code returned is {int} and the message information in the response body is failed.")
+    public void for_teacher_when_a_query_is_sent_that_contains_invalid_authorization_information_or_invalid_data_or_data_it_is_verified_that_the_status_code_returned_is_and_the_message_information_in_the_response_body_is_failed(Integer int1) {
+        response.then().assertThat().body("message", Matchers.equalTo("failed"));
+        System.out.println("response.statusCode() = " + response.statusCode());
+        JsonPath responseJP = response.jsonPath();
+        System.out.println("responseJP.get(\"message\") = " + responseJP.get("message"));
+        response.then().assertThat().statusCode(403);
+    }
+
+    // 43 US --> 01 /03 TC'ler
+    @Given("For Teacher, the get query is sent with valid authorization information and the response is saved.")
+    public void for_teacher_the_get_query_is_sent_with_valid_authorization_information_and_the_response_is_saved() {
+        // Teacher icin, gecerli authorization bilgileri ile  response kaydeder
+        response = given()
+                .spec(API_Hooks.spec)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenTeacher)
+                .contentType(ContentType.JSON)
+                .when()
+                .get(fullPath);
+
+    }
+    // 43 US --> TC 02
+    @Given("For Teacher, the get query is sent with invalid authorization information and the response is saved.")
+    public void for_teacher_the_get_query_is_sent_with_invalid_authorization_information_and_the_response_is_saved() {
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "invalid");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + "API_Hooks.TokenAdmin")
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+    }
+    // 43 US --> 03 TC
+    @Given("For Teacher, The content of the {string} in the response body should be verified")
+    public void for_teacher_the_content_of_the_in_the_response_body_should_be_verified(String string) {
+        JsonPath resJP = response.jsonPath();
+        // System.out.println(resJP.getList("lists"));
+        List<Object> list = resJP.getList("lists");
+        Object[] arrList = new Object[list.size()];
+        arrList = list.toArray(arrList);
+        // System.out.println(Arrays.toString(arrList));
+        int index = 0;
+        for (int a = 0; a < arrList.length; a++) {
+            if (arrList[a].toString().contains("<p>Yeni Nesil Göc Dalgasi</p>")) {
+                System.out.println("index no : " + a);
+                index = a;
+                break;
+            }
+        }
+        System.out.println(arrList[index].toString());
+    }
 
 
 
 }
+
+
+
+
+
 
 
 
