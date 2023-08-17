@@ -1,18 +1,22 @@
 package utilities;
 
+import hooks.API_Hooks;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
+import static stepDefinitions.API_StepDefinition.fullPath;
 
 public class API_Utils {
     public static RequestSpecification spec;
+    static Response response;
     public static String generateTokenAdmin(){
         spec = new RequestSpecBuilder().setBaseUri(ConfigReader.getProperty("base_url")).build();
         spec.pathParams("pp1","api","pp2","getToken");
@@ -73,6 +77,22 @@ public class API_Utils {
         String token = respJP.getString("token");
 
         return token;
+    }
+    public static void deleteMethod(int id){
+
+        JSONObject reqBody=new JSONObject();
+
+        reqBody.put("id",id);
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
+
+        response.prettyPrint();
     }
 
 

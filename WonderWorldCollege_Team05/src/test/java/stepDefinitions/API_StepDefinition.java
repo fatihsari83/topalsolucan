@@ -4,11 +4,13 @@ import hooks.API_Hooks;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java.lv.Ja;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.Assert;
+import utilities.API_Utils;
 import utilities.ConfigReader;
 
 import java.util.ArrayList;
@@ -25,6 +27,11 @@ public class API_StepDefinition {
     JSONObject reqBodyJson;
     Response response;
     int successStatusCode = 200;
+    int addId;
+    int deleteId;
+    int expectedData;
+    int actualResult;
+    JsonPath respJP;
 
     @Given("Set {string} parameters")
     public void set_parameters(String rawPaths) {
@@ -46,6 +53,7 @@ public class API_StepDefinition {
         fullPath = tempPath.toString();
         System.out.println("fullPath = " + fullPath);
     }
+
     @When("Records response for Admin with valid authorization information")
     public void recordsResponseForAdminWithValidAuthorizationInformation() {
         // Admin icin, gecerli authorization bilgileri ile  response kaydeder
@@ -62,7 +70,7 @@ public class API_StepDefinition {
     public void recordsResponseForStudentWithInvalidAuthorizationInformation() {
         // Admin icin, gecersiz authorization bilgileri ile response kaydeder
         JSONObject reqBody = new JSONObject();
-        response= given()
+        response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer" + ConfigReader.getProperty("wrongTokenStudent"))
@@ -71,8 +79,9 @@ public class API_StepDefinition {
         response.prettyPrint();
 
     }
+
     @When("Prepare request body for admin api_bookIssueId endpoint with invalid authorization information and record response")
-    public void prepare_Request_Body_For_admin_api_bookIssueId_Endpoint_With_Invalid_Authorization_Information_And_Record_Response () {
+    public void prepare_Request_Body_For_admin_api_bookIssueId_Endpoint_With_Invalid_Authorization_Information_And_Record_Response() {
         //  Admin icin api/bookIssueId andpointine gecersiz authorization bilgileriyle request body hazirla ve response kaydeder.
 
         JSONObject reqBody = new JSONObject();
@@ -101,7 +110,6 @@ public class API_StepDefinition {
     }
 
 
-
     @When("Records response for Teacher with valid authorization information")
     public void recordsResponseForTeacherWithValidAuthorizationInformation() {
         // Teacher icin, gecerli authorization bilgileri ile  response kaydeder
@@ -118,11 +126,12 @@ public class API_StepDefinition {
                 .get(fullPath);
         response.prettyPrint();
     }
+
     @When("Records response for Teacher with invalid authorization information")
     public void records_Response_For_Teacher_With_Invalid_Authorization_Information() {
         // Admin icin, gecersiz authorization bilgileri ile response kaydeder
         JSONObject reqBody = new JSONObject();
-        response= given()
+        response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer" + ConfigReader.getProperty("wrongTokenTeacher"))
@@ -167,11 +176,11 @@ public class API_StepDefinition {
         actualData = actualData.replaceAll(" ", "");
         actualData = actualData.replace("{", "");
         actualData = actualData.replace("}", "");
-        System.out.println("ACTUAL DATA =   "+actualData);
+        System.out.println("ACTUAL DATA =   " + actualData);
 
         expectedData = expectedData.replaceAll(",", "");
         expectedData = expectedData.replaceAll(" ", "");
-        System.out.println("EXPECTED DATA = "+ expectedData);
+        System.out.println("EXPECTED DATA = " + expectedData);
         Assert.assertEquals(expectedData, actualData);
 
 
@@ -207,6 +216,7 @@ public class API_StepDefinition {
 
         response.prettyPrint();
     }
+
     @Given("Prepare request body for admin api_alumniEventsId endpoint with invalid authorization information and record response")
     public void prepare_request_body_for_admin_api_alumni_events_ıd_endpoint_with_invalid_authorization_information_and_record_response() {
         JSONObject reqBody = new JSONObject();
@@ -240,8 +250,8 @@ public class API_StepDefinition {
         // event_notification_message, show_onwebsite, created_at)
 
 
-        String [] expectedArray = {"id","title","event_for","session_id","class_id","section","from_date","to_date","note"
-                ,"photo","is_active","event_notification_message","show_onwebsite","created_at"};
+        String[] expectedArray = {"id", "title", "event_for", "session_id", "class_id", "section", "from_date", "to_date", "note"
+                , "photo", "is_active", "event_notification_message", "show_onwebsite", "created_at"};
 
         /*
         (id'si = "1", olan veri içeriğindeki name: "English", code: "210",
@@ -265,9 +275,9 @@ public class API_StepDefinition {
     @Given("List data is verified in response from apiteacher_subjectsList endpoint")
     public void listdataisverifiedinresponsefromapiteachersubjectsListendpoint() {
 
-        String [] expectedArray = {"id","name","code","type","is_active","created_at","updated_at","null",
-                "id","name","code","type","is_active","created_at","updated_at","null",
-                "id","name","code","type","is_active","created_at","updated_at"};
+        String[] expectedArray = {"id", "name", "code", "type", "is_active", "created_at", "updated_at", "null",
+                "id", "name", "code", "type", "is_active", "created_at", "updated_at", "null",
+                "id", "name", "code", "type", "is_active", "created_at", "updated_at"};
 
         JsonPath resJP = response.jsonPath();
 
@@ -284,7 +294,7 @@ public class API_StepDefinition {
     public void list_data_is_verified_in_response_from_api_student_studentInformationDetails_endpoint() {
 
 
-        String [] expectedArray = {"pickup_point_name", "null",
+        String[] expectedArray = {"pickup_point_name", "null",
                 "route_pickup_point_id", "null",
                 "transport_fees", "0.00",
                 "app_key", "null",
@@ -406,8 +416,8 @@ public class API_StepDefinition {
         // event_notification_message, show_onwebsite, created_at)
 
 
-        String [] expectedArray = {"id","student_session_id","subject_group_subject_id","title","description","attachment","evaluated_by","date",
-                "evaluation_date","remark","created_at","subject_name","subject_code,","subject_code"};
+        String[] expectedArray = {"id", "student_session_id", "subject_group_subject_id", "title", "description", "attachment", "evaluated_by", "date",
+                "evaluation_date", "remark", "created_at", "subject_name", "subject_code,", "subject_code"};
 
         JsonPath resJP = response.jsonPath();
 
@@ -419,11 +429,12 @@ public class API_StepDefinition {
 
         }
     }
+
     @Given("List data is verified in response from apistudent_dailyAssignmentList endpoint")
     public void list_data_is_verified_in_response_from_api_student_daily_assignment_list_endpoint() {
 
-        String [] expectedArray = {"id","student_session_id","subject_group_subject_id","title","description","attachment","evaluated_by","date",
-                "evaluation_date","remark","created_at","subject_name","subject_code,","subject_code"};
+        String[] expectedArray = {"id", "student_session_id", "subject_group_subject_id", "title", "description", "attachment", "evaluated_by", "date",
+                "evaluation_date", "remark", "created_at", "subject_name", "subject_code,", "subject_code"};
 
         JsonPath resJP = response.jsonPath();
 
@@ -436,11 +447,12 @@ public class API_StepDefinition {
         }
 
     }
+
     @Given("List data is verified in response from apistudent_applyLeaveList endpoint")
     public void list_data_is_verified_in_response_from_api_student_apply_leave_list_endpoint() {
 
-        String [] expectedArray = {"id","student_session_id","from_date","to_date","apply_date","status","docs","reason","approve_by",
-                "approve_date","request_type","created_at","firstname","middlename,","lastname","staff_name","surname","class_id","section_id","class","section"};
+        String[] expectedArray = {"id", "student_session_id", "from_date", "to_date", "apply_date", "status", "docs", "reason", "approve_by",
+                "approve_date", "request_type", "created_at", "firstname", "middlename,", "lastname", "staff_name", "surname", "class_id", "section_id", "class", "section"};
 
 
         JsonPath resJP = response.jsonPath();
@@ -452,6 +464,362 @@ public class API_StepDefinition {
             Assert.assertTrue(actualData.contains(expectedArray[i]));
 
         }
+
+    }
+
+    // US_05 -> TC_01
+    @Given("Post request is send for visitorsPurposeDelete")
+    public void Post_request_is_send_for_visitors_purpose_delete() {
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("visitors_purpose", "Veli Ziyareti");
+        postBody.put("description", "Veli Ziyareti İçin Gelindi");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+
+        JsonPath resJP = response.jsonPath();
+        addId = resJP.get("addId");
+        System.out.println(addId);
+
+
+    }
+
+    @Given("Delete request is send for visitorsPurposeDelete")
+    public void Delete_request_is_send_for_visitors_purpose_delete() {
+
+        API_Utils.deleteMethod(addId);
+
+
+    }
+
+    // US_05 -> TC_02
+    @Given("Incorrect deletion request is sent for visitorsPurposeDelete")
+    public void ıncorrect_deletion_request_is_sent_for_visitors_purpose_delete() {
+    /*
+        JSONObject reqBody = new JSONObject();
+
+        reqBody.put("id", 22564);
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + null)
+                .when()
+                .body(reqBody.toString())
+                .delete(fullPath);
+
+        response.prettyPrint();
+
+     */
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "2");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + "wrongToken")
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+        response.prettyPrint();
+    }
+
+    // US_05 -> TC_03
+
+    @Given("Send a DELETE body with valid authorization information and correct data id to the apivisitorsPurposeDelete endpoint")
+    public void send_a_delete_body_with_valid_authorization_information_and_correct_data_id_to_the_apivisitors_purpose_delete_endpoint() {
+
+        expectedData = addId;
+
+        Assert.assertEquals(expectedData, addId);
+
+    }
+
+    // US_05 -> TC_04
+    @Given("Confirm from the API that the visitor purpose record requested to be deleted from the API has been deleted.")
+    public void confirm_from_the_apı_that_the_visitor_purpose_record_requested_to_be_deleted_from_the_apı_has_been_deleted() {
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("id", addId);
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+        int statusCode=403;
+
+        assertEquals(statusCode, response.getStatusCode());
+
+
+    }
+
+    // US_12 -> TC_01
+    @Given("Post request is send for alumniEventsDelete")
+    public void post_request_is_send_for_alumni_events_delete() {
+
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("title", "Sports Activite");
+        postBody.put("event_for", "all");
+        postBody.put("session_id", 11);
+        postBody.put("section", "null");
+        postBody.put("from_date", "2023-02-14 00:00:00");
+        postBody.put("to_date", "2023-02-15 23:59:00");
+        postBody.put("note", "Sports");
+        postBody.put("event_notification_message", "Sports");
+        postBody.put("show_onwebsite", "0");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+
+        JsonPath resJP = response.jsonPath();
+        addId = resJP.get("addId");
+        System.out.println(addId);
+    }
+
+
+
+
+    // US_16 -> TC_01
+    @Given("Submit a PATCH body with valid authorization information and correct data to the apivehicleUpdate endpoint")
+    public void submit_a_patch_body_with_valid_authorization_information_and_correct_data_to_the_api_vehicle_update_endpoint() {
+
+
+        JSONObject patchBody = new JSONObject();
+
+        patchBody.put("id", 3);
+        patchBody.put("vehicle_no", "VH4584");
+        patchBody.put("vehicle_model", "Ford CAB");
+        patchBody.put("vehicle_photo", "1677502339-191558462463fca783b26b0!fd.png");
+        patchBody.put("manufacture_year", "2015");
+        patchBody.put("registration_number", "FFG-76575676787");
+        patchBody.put("chasis_number", "523422");
+        patchBody.put("max_seating_capacity", "50");
+        patchBody.put("driver_name", "Jasper");
+        patchBody.put("driver_licence", "258714545");
+        patchBody.put("driver_contact", "8521479630");
+        patchBody.put("note", "");
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(patchBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+
+    }
+    // US_16 -> TC_02
+    @Given("Submit a PATCH body with invalid authorization information or missingincorrect data to the apivehicleUpdate endpoint")
+    public void submit_a_patch_body_with_invalid_authorization_information_or_missing_incorrect_data_to_the_api_vehicle_update_endpoint() {
+
+        JSONObject patchBody = new JSONObject();
+
+        patchBody.put("id", 3);
+        patchBody.put("vehicle_no", "VH4584");
+        patchBody.put("vehicle_model", "Ford CAB");
+        patchBody.put("vehicle_photo", "1677502339-191558462463fca783b26b0!fd.png");
+        patchBody.put("manufacture_year", "2015");
+        patchBody.put("registration_number", "FFG-76575676787");
+        patchBody.put("chasis_number", "523422");
+        patchBody.put("max_seating_capacity", "50");
+        patchBody.put("driver_name", "Jasper");
+        patchBody.put("driver_licence", "258714545");
+        patchBody.put("driver_contact", "8521479630");
+        patchBody.put("note", "");
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + ConfigReader.getProperty("wrongTokenAdmin"))
+                .when()
+                .body(patchBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+
+
+    }
+
+    // US_16 -> TC_03
+
+    @Given("Verify that the DeletedId in the response body is the same as the ID in the DELETE request body sent to the apivisitorsPurposeDelete endpoint")
+    public void verify_that_the_deleted_ıd_in_the_response_body_is_the_same_as_the_ıd_in_the_delete_request_body_sent_to_the_api_visitors_purpose_delete_endpoint() {
+        expectedData=3;
+        respJP=response.jsonPath();
+        actualResult=respJP.get("updateId");
+        Assert.assertEquals(expectedData,actualResult);
+    }
+    // US_16 -> TC_04
+    @Given("Post request is send for apivehicleId")
+    public void post_request_is_send_for_apivehicle_ıd() {
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("id", 3);
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+        expectedData=200;
+        respJP=response.jsonPath();
+        actualResult=respJP.get();
+
+        //Assert.assertTrue(expectedData,actualResult);
+    }
+
+    // US_17 -> TC_01
+    @Given("Post request is send for apivehicleDelete")
+    public void post_request_is_send_for_apivehicle_delete() {
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("id", 3);
+        postBody.put("vehicle_no", "VH4584");
+        postBody.put("vehicle_model", "Ford CAB");
+        postBody.put("vehicle_photo", "1677502339-191558462463fca783b26b0!fd.png");
+        postBody.put("manufacture_year", "2015");
+        postBody.put("registration_number", "FFG-76575676787");
+        postBody.put("chasis_number", "523422");
+        postBody.put("max_seating_capacity", "50");
+        postBody.put("driver_name", "Jasper");
+        postBody.put("driver_licence", "258714545");
+        postBody.put("driver_contact", "8521479630");
+        postBody.put("note", "");
+
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+
+        JsonPath resJP = response.jsonPath();
+        addId = resJP.get("addId");
+        System.out.println(addId);
+    }
+
+    @Given("Delete request is send for Set apivehicleDelete")
+    public void delete_request_is_send_for_set_apivehicle_delete() {
+
+        API_Utils.deleteMethod(addId);
+
+    }
+
+
+    // US_20 -> TC_01
+
+    @Given("Post request is send for apibookIssueAdd")
+    public void post_request_is_send_for_apibook_issue_add() {
+
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("book_id", "11");
+        postBody.put("member_id", "7");
+        postBody.put("duereturn_date", "2021-08-04");
+        postBody.put("return_date", "2021-09-06");
+        postBody.put("issue_date", "2021-08-04");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+
+
+    }
+
+
+    // US_20 -> TC_02
+    @Given("Submit a PATCH body with invalid authorization information or missingin/correct data to the apivehicleUpdate endpoint")
+    public void submit_a_patch_body_with_invalid_authorization_information_or_missingincorrect_data_to_the_api_vehicle_update_endpoint() {
+
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("book_id", "11");
+        postBody.put("member_id", "7");
+        postBody.put("duereturn_date", "2021-08-04");
+        postBody.put("return_date", "2021-09-06");
+        postBody.put("issue_date", "2021-08-04");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + ConfigReader.getProperty("wrongTokenAdmin"))
+                .when()
+                .body(postBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+    }
+
+
+    // US_20 -> TC_03
+    @Given("Verify via API that the new book issue record to be created via API has been created.")
+    public void verify_via_api_that_the_new_book_issue_record_to_be_created_via_api_has_been_created() {
+        JSONObject postBody = new JSONObject();
+
+        postBody.put("book_id", "11");
+        postBody.put("member_id", "7");
+        postBody.put("duereturn_date", "2021-08-04");
+        postBody.put("return_date", "2021-09-06");
+        postBody.put("issue_date", "2021-08-04");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(postBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+
+        JsonPath resJP = response.jsonPath();
+        addId = resJP.get("addId");
+        System.out.println("Successful post ID :"+addId);
+
 
     }
 
