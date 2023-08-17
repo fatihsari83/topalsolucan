@@ -20,7 +20,7 @@ public class DB_StepDefinition {
     }
     @Given("DB US10 Query is run and the results are taken.")
     public void db_us10_query_is_run_and_the_results_are_taken() {
-        DB_Utils.deleteRecord("wonderworld_qa3.visitors_book","id",39);
+        DB_Utils.deleteRecord("wonderworld_qa3.visitors_book","id",40);
 
     }
     @Given("DB US10 Query results are validated.")
