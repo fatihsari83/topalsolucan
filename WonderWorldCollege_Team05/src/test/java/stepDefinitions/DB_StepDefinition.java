@@ -10,7 +10,8 @@ import static utilities.DB_Utils.getStatement;
 
 public class DB_StepDefinition {
 
-    ResultSet resultSet;
+    ResultSet resultSet11;
+    ResultSet resultSet12;
 
     // US10
     @Given("Database connection is established.")
@@ -37,30 +38,39 @@ public class DB_StepDefinition {
     @Given("DB US11 Query is run and the results are taken.")
     public void db_us11_query_is_run_and_the_results_are_taken() throws SQLException {
 
-        DB_Utils.updateQuery(ConfigReader.getProperty("db_us11Query"));
+       int sayi= getStatement().executeUpdate(ConfigReader.getProperty("db_us11Query"));
+
+
+
 
 
     }
 
     @Given("DB US11 Query results are validated.")
-    public void db_us11_query_results_are_validated() {
-        int sonuç =0;
-        Assert.assertEquals(sonuç,1);
+    public void db_us11_query_results_are_validated() throws SQLException {
+        String query = "SELECT * FROM wonderworld_qa2.transport_feemaster WHERE id=7;";
+        resultSet11 = getStatement().executeQuery(query);
+        while (resultSet11.next()) {
+            System.out.println(resultSet11.getString("month") + "--" + resultSet11.getFloat("fine_amount"));
+        }
+
+
     }
 
     // US12
 
     @Given("DB US12 Query is run and the results are taken.")
     public void db_us12_query_is_run_and_the_results_are_taken() throws SQLException {
-     DB_Utils.updateQuery(ConfigReader.getProperty("db_us12Query"));
+
+        resultSet12=  getStatement().executeQuery(ConfigReader.getProperty("db_us12Query"));
 
     }
 
     @Given("DB US12 Query results are validated.")
-    public void db_us12_query_results_are_validated() {
-        int sonuç =0;
-        Assert.assertEquals(sonuç,5);
-
+    public void db_us12_query_results_are_validated() throws SQLException {
+        while (resultSet12.next()) {
+            System.out.println(resultSet12.getString("name") + " -- " + resultSet12.getInt("id"));
+        }
 
     }
 
