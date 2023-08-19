@@ -1,5 +1,5 @@
 Feature: US_03 As an administrator, I want to create a new visitor purpose record through API connection.
-
+  @team
   Scenario: TC_01 When valid authorization information and correct data (visitors_purpose, description)
   are sent in the POST body to the api/visitorsPurposeAdd endpoint, the expected status code is 200,
   and the message in the response body should be "Success."
@@ -25,6 +25,17 @@ Feature: US_03 As an administrator, I want to create a new visitor purpose recor
     * Set "api/visitorsPurposeId" parameters
     * Records response for Admin with valid authorization information
     * Prepare request body for admin api_visitorsPurposeId endpoint and record response
+
+
+
+
+
+
+
+
+
+
+
 
 
 

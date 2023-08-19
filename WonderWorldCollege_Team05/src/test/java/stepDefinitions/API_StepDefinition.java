@@ -57,6 +57,7 @@ public class API_StepDefinition {
         fullPath = tempPath.toString();
         System.out.println("fullPath = " + fullPath);
     }
+
     @When("Records response for Admin with valid authorization information")
     public void recordsResponseForAdminWithValidAuthorizationInformation() {
         // Admin icin, gecerli authorization bilgileri ile  response kaydeder
@@ -79,13 +80,27 @@ public class API_StepDefinition {
                 .get(fullPath);
         response.prettyPrint();
 
+    @When("Records response for Admin with invalid authorization information")
+    public void recordsResponseForAdminWithInvalidAuthorizationInformation() {
+        // Admin icin, gecersiz authorization bilgileri ile response kaydeder
+        JSONObject reqBody = new JSONObject();
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer" + ConfigReader.getProperty("wrongTokenAdmin"))
+                .when()
+                .post(fullPath);
+        response.prettyPrint();
+
+    }
+
 
     }
     @When("Records response for Student with invalid authorization information")
     public void recordsResponseForStudentWithInvalidAuthorizationInformation() {
         // Admin icin, gecersiz authorization bilgileri ile response kaydeder
         JSONObject reqBody = new JSONObject();
-        response= given()
+        response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer" + ConfigReader.getProperty("wrongTokenStudent"))
@@ -93,8 +108,9 @@ public class API_StepDefinition {
                 .post(fullPath);
         response.prettyPrint();
     }
+
     @When("Prepare request body for admin api_bookIssueId endpoint with invalid authorization information and record response")
-    public void prepare_Request_Body_For_admin_api_bookIssueId_Endpoint_With_Invalid_Authorization_Information_And_Record_Response () {
+    public void prepare_Request_Body_For_admin_api_bookIssueId_Endpoint_With_Invalid_Authorization_Information_And_Record_Response() {
         //  Admin icin api/bookIssueId andpointine gecersiz authorization bilgileriyle request body hazirla ve response kaydeder.
 
         JSONObject reqBody = new JSONObject();
@@ -118,6 +134,11 @@ public class API_StepDefinition {
         JsonPath resJP = response.jsonPath();
         assertEquals(message, resJP.getString("message"));
     }
+
+
+
+
+
     @When("Records response for Teacher with valid authorization information")
     public void recordsResponseForTeacherWithValidAuthorizationInformation() {
         // Teacher icin, gecerli authorization bilgileri ile  response kaydeder
@@ -131,11 +152,12 @@ public class API_StepDefinition {
                 .get(fullPath);
         response.prettyPrint();
     }
+
     @When("Records response for Teacher with invalid authorization information")
     public void records_Response_For_Teacher_With_Invalid_Authorization_Information() {
         // Admin icin, gecersiz authorization bilgileri ile response kaydeder
         JSONObject reqBody = new JSONObject();
-        response= given()
+        response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
                 .headers("Authorization", "Bearer" + ConfigReader.getProperty("wrongTokenTeacher"))
@@ -173,11 +195,11 @@ public class API_StepDefinition {
         actualData = actualData.replaceAll(" ", "");
         actualData = actualData.replace("{", "");
         actualData = actualData.replace("}", "");
-        System.out.println("ACTUAL DATA =   "+actualData);
+        System.out.println("ACTUAL DATA =   " + actualData);
 
         expectedData = expectedData.replaceAll(",", "");
         expectedData = expectedData.replaceAll(" ", "");
-        System.out.println("EXPECTED DATA = "+ expectedData);
+        System.out.println("EXPECTED DATA = " + expectedData);
         Assert.assertEquals(expectedData, actualData);
     }
     @When("Verifies that record has status=200 and message=Success includes {}")
@@ -201,11 +223,46 @@ public class API_StepDefinition {
         actualData = actualData.replace("}", "");
         System.out.println("ACTUAL DATA =   "+actualData);
 
+
         expectedData = expectedData.replaceAll(",", "");
         expectedData = expectedData.replaceAll(" ", "");
         System.out.println("EXPECTED DATA = "+ expectedData);
         Assert.assertEquals(expectedData, actualData);
     }
+
+    @When("Prepare request body for admin api_visitorsPurposeId endpoint and record response")
+    public void prepareRequestBodyForAdminapi_visitorsPurposeIdEndpointAndRecordResponse() {
+        // Admin icin api/bookIssueId andpointine request body hazirlar ve response kaydeder.
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "538");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for admin api_visitorsPurposeUpdate endpoint and record response")
+    public void prepareRequestBodyForAdminapi_visitorsPurposeUpdateEndpointAndRecordResponse() {
+        // Admin icin api/bookIssueId andpointine request body hazirlar ve response kaydeder.
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", 10);
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+
     @When("Prepare request body for admin api_bookIssueId endpoint and record response")
     public void prepareRequestBodyForAdminApi_bookIssueIdEndpointAndRecordResponse() {
         // Admin icin api/bookIssueId andpointine request body hazirlar ve response kaydeder.
@@ -220,10 +277,53 @@ public class API_StepDefinition {
                 .post(fullPath);
         response.prettyPrint();
     }
+
     @When("Prepare request body for admin apistudent_applyLeaveAdd endpoint and record response")
     public void prepareRequestBodyForAdmin_apistudent_applyLeaveAddEndpointAndRecordResponse() {
         // Admin icin api/bookIssueId andpointine request body hazirlar ve response kaydeder.
         JSONObject reqBody = new JSONObject();
+
+
+    @When("Prepare request body for admin api_visitorsPurposeAdd endpoint and record response")
+    public void prepareRequestBodyForAdminapi_visitorsPurposeAddEndpointAndRecordResponse() {
+        // Admin icin api/bookIssueId andpointine request body hazirlar ve response kaydeder.
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("visitors_purpose", "Veli Ziyareti");
+        reqBody.put("description", "Veli Ziyareti İçin Gelindi");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare patch request body for admin api_visitorsPurposeUpdate endpoint and record response")
+    public void patchprepareRequestBodyForAdminapi_visitorsPurposeUpdateEndpointAndRecordResponse() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", 10);
+        reqBody.put("visitors_purpose", "Veli Ziyareti");
+        reqBody.put("description", "Veli Ziyareti İçin Gelindi");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
+                .when()
+                .body(reqBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for student apistudent_applyLeaveAdd endpoint and record response")
+    public void patchprepareRequestBodyForstudentapistudent_applyLeaveAddEndpointAndRecordResponse() {
+
+        JSONObject reqBody = new JSONObject();
+
         reqBody.put("from_date", "2023-06-01");
         reqBody.put("to_date", "2023-06-04");
         reqBody.put("apply_date", "2023-06-15");
@@ -231,6 +331,7 @@ public class API_StepDefinition {
         response = given()
                 .spec(API_Hooks.spec)
                 .contentType(ContentType.JSON)
+
                 .headers("Authorization", "Bearer " + API_Hooks.tokenAdmin)
                 .when()
                 .body(reqBody.toString())
@@ -251,6 +352,110 @@ public class API_StepDefinition {
                 .post(fullPath);
         response.prettyPrint();
     }
+
+                .headers("Authorization", "Bearer " + API_Hooks.tokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for student apistudent_applyLeaveAdd endpoint and record response with unvalid")
+    public void patchprepareRequestBodyForstudentapistudent_applyLeaveAddEndpointAndRecordResponse_with_unvalid() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("from_date", "2023-06-01");
+        reqBody.put("to_date", "2023-06-04");
+        reqBody.put("apply_date", "2023-06-15");
+        reqBody.put("reason", "sebep");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.wrongTokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+
+    @When("Prepare request body for student apistudent_applyLeaveUpdate endpoint and record response")
+    public void patchprepareRequestBodyForstudentapistudent_applyLeaveUpdateEndpointAndRecordResponse_with_valid() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "424");
+        reqBody.put("from_date", "2023-06-01");
+        reqBody.put("to_date", "2023-06-04");
+        reqBody.put("apply_date", "2023-06-15");
+        reqBody.put("reason", "sebep1");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for student apistudent_applyLeaveUpdate endpoint and record response wiht invalid")
+    public void patchprepareRequestBodyForstudentapistudent_applyLeaveUpdateEndpointAndRecordResponse_with_unvalid() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("id", "527");
+        reqBody.put("from_date", "2023-06-01");
+        reqBody.put("to_date", "2023-06-04");
+        reqBody.put("apply_date", "2023-06-15");
+        reqBody.put("reason", "sebep1");
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.wrongTokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .post(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for student apistudent_applyLeaveUpdate endpoint and record responseand updateId")
+    public void patchprepareRequestBodyForstudentapistudent_applyLeaveUpdateEndpointAndRecordResponse_and_updateId() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("updatedId", "527");
+
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .patch(fullPath);
+
+        response.prettyPrint();
+    }
+
+    @When("Prepare request body for student apistudent_applyLeaveList endpoint and record response")
+    public void patchprepareRequestBodyForapistudent_applyLeaveListEndpointAndRecordResponse() {
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("addId", 494);
+        response = given()
+                .spec(API_Hooks.spec)
+                .contentType(ContentType.JSON)
+                .headers("Authorization", "Bearer " + API_Hooks.tokenStudent)
+                .when()
+                .body(reqBody.toString())
+                .get(fullPath);
+
+        response.prettyPrint();
+    }
+
+
     @Given("Prepare request body for admin api_alumniEventsId endpoint and record response")
     public void prepare_request_body_for_admin_api_alumni_events_ıd_endpoint_and_record_response() {
         JSONObject reqBody = new JSONObject();
@@ -264,6 +469,7 @@ public class API_StepDefinition {
                 .post(fullPath);
         response.prettyPrint();
     }
+
     @Given("Prepare request body for admin api_alumniEventsId endpoint with invalid authorization information and record response")
     public void prepare_request_body_for_admin_api_alumni_events_ıd_endpoint_with_invalid_authorization_information_and_record_response() {
         JSONObject reqBody = new JSONObject();
@@ -291,8 +497,8 @@ public class API_StepDefinition {
     @Given("List data is verified in response from Admin api_alumniEventsId andpointin")
     public void list_data_is_verified_in_response_from_admin_api_alumni_events_ıd_andpointin() {
 
-        String [] expectedArray = {"id","title","event_for","session_id","class_id","section","from_date","to_date","note"
-                ,"photo","is_active","event_notification_message","show_onwebsite","created_at"};
+        String[] expectedArray = {"id", "title", "event_for", "session_id", "class_id", "section", "from_date", "to_date", "note"
+                , "photo", "is_active", "event_notification_message", "show_onwebsite", "created_at"};
 
         JsonPath resJP = response.jsonPath();
         String actualData = resJP.get("lists").toString();
@@ -305,9 +511,9 @@ public class API_StepDefinition {
     @Given("List data is verified in response from apiteacher_subjectsList endpoint")
     public void listdataisverifiedinresponsefromapiteachersubjectsListendpoint() {
 
-        String [] expectedArray = {"id","name","code","type","is_active","created_at","updated_at","null",
-                "id","name","code","type","is_active","created_at","updated_at","null",
-                "id","name","code","type","is_active","created_at","updated_at"};
+        String[] expectedArray = {"id", "name", "code", "type", "is_active", "created_at", "updated_at", "null",
+                "id", "name", "code", "type", "is_active", "created_at", "updated_at", "null",
+                "id", "name", "code", "type", "is_active", "created_at", "updated_at"};
 
         JsonPath resJP = response.jsonPath();
         String actualData = resJP.get("lists").toString();
@@ -321,6 +527,13 @@ public class API_StepDefinition {
     public void list_data_is_verified_in_response_from_api_student_studentInformationDetails_endpoint() {
 
         String [] expectedArray = {"pickup_point_name", "null",
+
+                                   
+                                   
+        String[] expectedArray = {"pickup_point_name", "null",
+
+                                  
+                                  
                 "route_pickup_point_id", "null",
                 "transport_fees", "0.00",
                 "app_key", "null",
@@ -434,8 +647,8 @@ public class API_StepDefinition {
     @Given("List data is verified in response from apistudent_dailyAssignmentById endpoint")
     public void list_data_is_verified_in_response_from_api_student_daily_assignment_by_id_endpoint() {
 
-        String [] expectedArray = {"id","student_session_id","subject_group_subject_id","title","description","attachment","evaluated_by","date",
-                "evaluation_date","remark","created_at","subject_name","subject_code,","subject_code"};
+        String[] expectedArray = {"id", "student_session_id", "subject_group_subject_id", "title", "description", "attachment", "evaluated_by", "date",
+                "evaluation_date", "remark", "created_at", "subject_name", "subject_code,", "subject_code"};
 
         JsonPath resJP = response.jsonPath();
         String actualData = resJP.get("lists").toString();
@@ -445,11 +658,12 @@ public class API_StepDefinition {
             Assert.assertTrue(actualData.contains(expectedArray[i]));
         }
     }
+
     @Given("List data is verified in response from apistudent_dailyAssignmentList endpoint")
     public void list_data_is_verified_in_response_from_api_student_daily_assignment_list_endpoint() {
 
-        String [] expectedArray = {"id","student_session_id","subject_group_subject_id","title","description","attachment","evaluated_by","date",
-                "evaluation_date","remark","created_at","subject_name","subject_code,","subject_code"};
+        String[] expectedArray = {"id", "student_session_id", "subject_group_subject_id", "title", "description", "attachment", "evaluated_by", "date",
+                "evaluation_date", "remark", "created_at", "subject_name", "subject_code,", "subject_code"};
 
         JsonPath resJP = response.jsonPath();
         String actualData = resJP.get("lists").toString();
@@ -459,11 +673,22 @@ public class API_StepDefinition {
             Assert.assertTrue(actualData.contains(expectedArray[i]));
         }
     }
+
+      
+      
        @Given("List data is verified in response from apistudent_applyLeaveList endpoint")
+
+      
+      
+
+    @Given("List data is verified in response from apistudent_applyLeaveList endpoint")
+
+      
+      
     public void list_data_is_verified_in_response_from_api_student_apply_leave_list_endpoint() {
 
-        String [] expectedArray = {"id","student_session_id","from_date","to_date","apply_date","status","docs","reason","approve_by",
-                "approve_date","request_type","created_at","firstname","middlename,","lastname","staff_name","surname","class_id","section_id","class","section"};
+        String[] expectedArray = {"id", "student_session_id", "from_date", "to_date", "apply_date", "status", "docs", "reason", "approve_by",
+                "approve_date", "request_type", "created_at", "firstname", "middlename,", "lastname", "staff_name", "surname", "class_id", "section_id", "class", "section"};
 
            HashMap<String,Object> respMap = response.as(HashMap.class);
            System.out.println(respMap.get("lists"));

@@ -46,6 +46,10 @@ public class DB_StepDefinition {
     String query14;
     String query15;
 
+    String query22;
+
+    String query23;
+    String query24;
 
     // DB_US_19-20-21
     @Given("Database bağlantısı kurulur.")
@@ -53,56 +57,66 @@ public class DB_StepDefinition {
         DB_Utils.createConnection();
 
     }
+
     @Given("Query hazırlanır")
     public void query_hazirlanir() {
-        query19= "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT 5;";
+        query19 = "SELECT email FROM students ORDER BY LENGTH(email) DESC LIMIT 5;";
 
     }
+
     @Given("Query çalıştırılır,sonuclari alınır ve yazdırılır.")
     public void query_calistirilir_sonuclari_alinir_ve_yazdirilir() throws SQLException {
 
-        rs= DB_Utils.getStatement().executeQuery(query19);
-        List< String> mailList= new ArrayList<>();
+        rs = DB_Utils.getStatement().executeQuery(query19);
+        List<String> mailList = new ArrayList<>();
 
-        while (rs.next()){
+        while (rs.next()) {
             mailList.add(rs.getString(1));
             System.out.println(rs.getString(1));
         }
         System.out.println(mailList);
     }
+
     @Given("Database bağlantısı kapatılır.")
     public void database_baglantisi_kapatilir() {
         closeConnection();
 
     }
+
     @Given("Amount Query'si hazırlanır")
     public void amount_query_si_hazirlanir() {
         query20 = "SELECT name, amount FROM expenses ORDER BY amount DESC LIMIT 1;";
 
     }
+
     @Given("Query sonuclari alinir ve doğrulanır.")
     public void query_sonuclari_alinir_ve_dogrulanir() throws SQLException {
 
-        rs= DB_Utils.getStatement().executeQuery(query20);
+        rs = DB_Utils.getStatement().executeQuery(query20);
         rs.next();
         System.out.println(rs.getString(1));
 
     }
+
     @Given("Update Query'si hazırlanır.")
     public void update_query_si_hazirlanir() {
 
         query21 = "INSERT INTO wonderworld_qa3.general_calls VALUES (180,'team5fatih','21234512','2023-08-16','successed test','2023-08-15','50','yeter artik','the coming','2023-08-15')";
 
     }
+
     @Given("Sonuclari alinir ve doğrulanır.")
     public void sonuclari_alinir_ve_dogrulanir() throws SQLException {
 
         int sonuc = DB_Utils.getStatement().executeUpdate(query21);
 
-        int verify=0;
-        if (sonuc>0){
+        int verify = 0;
+        if (sonuc > 0) {
             verify++;
         }
+
+      
+      
         assertEquals(verify,1);
 }
 
@@ -225,6 +239,21 @@ public class DB_StepDefinition {
         DB_Utils.createConnection();
 
     }
+
+  
+  
+        assertEquals(verify, 1);
+
+
+    }
+    @Given("Database connection is established")
+    public void database_connection_is_established() {
+        DB_Utils.createConnection();
+    }
+
+
+
+
     @Given("Query is prepared")
     public void query_is_prepared() {
         query22 = "SELECT id, name FROM income ORDER BY amount DESC LIMIT 10";
@@ -269,6 +298,9 @@ public class DB_StepDefinition {
             String dateOfJoining = rs.getString("date_of_joining");
             System.out.println("ID: " + id + ", Name: " + name + ", Department: " + department + ", Date of Joining: " + dateOfJoining);
         }
+
+      
+      
 
         Assert.assertEquals("Top 3 staff members with longest employment duration are not fetched as expected.", 3, rowCount);
     }
@@ -527,4 +559,36 @@ public class DB_StepDefinition {
 
 }
 
+
+
+
+
+
+
+        Assert.assertEquals("Top 3 staff members with longest employment duration are not fetched as expected.", 3, rowCount);
+    }
+
+    @Given("Prepare query for oldest staff member")
+    public void prepare_query_for_oldest_staff_member() {
+        query24 = "SELECT email, contact_no, basic_salary FROM staff WHERE dob = (SELECT MIN(dob) FROM staff)";
+    }
+
+    @Given("Execute query for oldest staff member and obtain results")
+    public void execute_query_for_oldest_staff_member_and_obtain_results() throws SQLException {
+        rs = getStatement().executeQuery(query24);
+    }
+
+    @Given("Verify query results for oldest staff member")
+    public void verify_query_results_for_oldest_staff_member() throws SQLException {
+        if (rs.next()) {
+            String email = rs.getString("email");
+            String contactNo = rs.getString("contact_no");
+            double basicSalary = rs.getDouble("basic_salary");
+
+            System.out.println("Email: " + email + ", Contact No: " + contactNo + ", Basic Salary: " + basicSalary);
+        } else {
+            Assert.fail("No data found for the oldest staff member.");
+        }
+    }
+}
 
