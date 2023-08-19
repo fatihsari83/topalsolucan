@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
         },
         features = "src/test/resources/features.db",
         glue = {"stepDefinitions", "hooks"},
-        tags = "@Team05",
+        tags = "@AK",
         dryRun = false
 
 )

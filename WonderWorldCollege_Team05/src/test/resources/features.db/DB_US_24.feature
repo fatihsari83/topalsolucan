@@ -1,9 +1,11 @@
-Feature:US_24 List the name and ID of the top 10 income values from the income table based on the highest amount.
-
-  Scenario: TC_01 List the name and ID of the top 10 income values from the income table based on the highest amount.
+Feature:US_24 List the email, phone, and salary information of the oldest staff member in the staff table.
 
 
-    * Connect to database
-    * A query prepared with the given data "SELECT  FROM onlineexam_students ;" and Column name "student_session_id" is performed.
-    * find the size of rowdata list
-    * Close database
+  Scenario: TC_01 List the email, phone, and salary information of the oldest staff member in the staff table.
+
+
+    * Database bağlantısı kurulur.
+    * Prepare query for oldest staff member
+    * Execute query for oldest staff member and obtain results
+    * Verify query results for oldest staff member
+    * Database bağlantısı kapatılır.

@@ -1,6 +1,5 @@
 Feature: US_61 As a user (student), I want to access my daily assignment information with the 'id' through API connection.
 
-  @team05
 
   Scenario: TC_01 When a valid authorization and correct data (id) are sent in a POST body to the "apistudent/dailyAssignmentById" endpoint,
             the response status code should be 200, and the response body's message should be "Success."
@@ -23,8 +22,6 @@ Feature: US_61 As a user (student), I want to access my daily assignment informa
   Scenario: TC_03 The content of the list data (id, student_session_id, subject_group_subject_id, title, description, attachment,
                 evaluated_by, date, evaluation_date, remark, created_at, subject_name, subject_code, subject_code)
                 in the response body should be verified to ensure its correctness.
-                The content of the list data (id, student_session_id, subject_group_subject_id, title, description, attachment, evaluated_by, date,
-                evaluation_date, remark, created_at, subject_name, subject_code, subject_code) in the response body should be verified to ensure its correctness.
 
     * Set "apistudent/dailyAssignmentById" parameters
     * Records response for Student with valid authorization information
