@@ -7,5 +7,15 @@ Feature:US_22 List the name and ID of the top 10 income values from the income t
     * Database bağlantısı kurulur.
     * Query is prepared
     * Query is executed and results are obtained
+
+
+
+    * Query results are verified
+
+
+
     * Query results for longest employment duration are verified
+
+
+
     * Database bağlantısı kapatılır.

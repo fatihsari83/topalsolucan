@@ -1,6 +1,16 @@
-Feature:US_24 List the name and ID of the top 10 income values from the income table based on the highest amount.
+Feature:US_24 List the email, phone, and salary information of the oldest staff member in the staff table.
 
-  Scenario: TC_01 List the name and ID of the top 10 income values from the income table based on the highest amount.
+
+  Scenario: TC_01 List the email, phone, and salary information of the oldest staff member in the staff table.
+
+
+
+
+
+
+
+
+
 
 
     * Database bağlantısı kurulur.

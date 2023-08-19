@@ -9,7 +9,18 @@ Feature: US_67 As a user (student), I want to update my registered Apply Leave i
     * Verifies that status code is 200
     * Verifies that the message information is "Success"
 
+
+
+
+  Scenario: TC_02 When invalid authorization information or incomplete/incorrect data (id)
+  are sent with a PATCH
+
+
+
   Scenario: TC_02 When invalid authorization information or incomplete/incorrect data (id) are sent with a PATCH
+
+
+
   request to the "apistudent/applyLeaveUpdate" endpoint, the response status code should be 403, and the response
   body's message should be "failed."
 

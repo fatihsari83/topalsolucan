@@ -12,7 +12,8 @@ Feature: US_04 As an administrator, I want to update the registered visitor purp
     * Verifies that the message information is "Success"
 
 
-  Scenario: TC_02 When invalid authorization information or missing/wrong data (id) is sent in the PATCH body (with visitors_purpose,
+  Scenario: TC_02 When invalid authorization information or missing/wrong data (id)
+  is sent in the PATCH body (with visitors_purpose,
   description) to the api/visitorsPurposeUpdate endpoint,the expected status code is 403, and the message in the response body
   should be "failed."
 

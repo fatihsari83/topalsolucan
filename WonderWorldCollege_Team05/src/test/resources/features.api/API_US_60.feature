@@ -1,6 +1,6 @@
 Feature: US_60 As a user (student), I want to access my Daily Assignment List through API connection.
 
-  @team05
+
   Scenario: TC_01 When a valid authorization is used to send a GET request to the "apistudent/dailyAssignmentList" endpoint,
             the response status code should be 200, and the response message should be "Success."
 
@@ -23,9 +23,6 @@ Feature: US_60 As a user (student), I want to access my Daily Assignment List th
             Each entry should have various fields such as "id," "student_session_id," "subject_group_subject_id," "title," "description,"
             "attachment," "evaluated_by," "date," "evaluation_date," "remark," "created_at," "subject_name," "subject_code," and "subject_code."
             The content of each field should be verified to ensure the correctness of the response data.
-
-  The response body should contain a field called "lists," which includes multiple data entries. Each entry should have various fields such as "id," "student_session_id," "subject_group_subject_id," "title," "description," "attachment," "evaluated_by," "date," "evaluation_date," "remark," "created_at," "subject_name," "subject_code," and "subject_code." The content of each field should be verified to ensure the correctness of the response data.
-
 
     * Set "apistudent/dailyAssignmentList" parameters
     * Records response for Student with valid authorization information

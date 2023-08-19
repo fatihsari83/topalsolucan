@@ -1,5 +1,6 @@
 Feature: US_09 As an administrator, I want to access the Alumni Events information with a given ID through API connection.
 
+
   Scenario: TC_01 api/alumniEventsId endpoint'ine gecerli authorization bilgileri ve dogru data (id) iceren bir POST body
   gönderildiğinde dönen status code'in 200 olduguve response body'deki message bilgisinin "Success" olduğu doğrulanmali
 

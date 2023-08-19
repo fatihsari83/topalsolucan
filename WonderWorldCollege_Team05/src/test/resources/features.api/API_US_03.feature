@@ -30,3 +30,12 @@ Feature: US_03 As an administrator, I want to create a new visitor purpose recor
 
 
 
+
+
+
+
+
+
+
+
+

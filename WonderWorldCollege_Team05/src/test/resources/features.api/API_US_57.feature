@@ -1,8 +1,8 @@
 Feature: US_57 As a user (student), I want to access my Student Information Details through API connection.
-  @team05
+
 
   Scenario: TC_01 When a valid authorization is used to send a GET request to the "apistudent/getStudentClass" endpoint,
-  the response status code should be 200, and the response message should be "Success."
+            the response status code should be 200, and the response message should be "Success."
 
     * Set "apistudent/getStudentClass" parameters
     * Records response for Student with valid authorization information
@@ -11,7 +11,7 @@ Feature: US_57 As a user (student), I want to access my Student Information Deta
 
 
   Scenario: TC_02 When invalid authorization is used to send a GET request to the "apistudent/getStudentClass" endpoint,
-  the response status code should be 403, and the response message should be "failed."
+            the response status code should be 403, and the response message should be "failed."
 
     * Set "apistudent/getStudentClass" parameters
     * Records response for Student with invalid authorization information
